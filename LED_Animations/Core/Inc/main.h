@@ -65,10 +65,20 @@ void Error_Handler(void);
 #define LED_LEFT_GREEN_GPIO_Port GPIOC
 #define LED_BOT_RED_Pin GPIO_PIN_3
 #define LED_BOT_RED_GPIO_Port GPIOC
+#define SEG7_C_Pin GPIO_PIN_4
+#define SEG7_C_GPIO_Port GPIOA
+#define SEG7_CTRL_0_Pin GPIO_PIN_6
+#define SEG7_CTRL_0_GPIO_Port GPIOA
+#define SEG7_CTRL_1_Pin GPIO_PIN_7
+#define SEG7_CTRL_1_GPIO_Port GPIOA
 #define LED_BOT_YELLOW_Pin GPIO_PIN_4
 #define LED_BOT_YELLOW_GPIO_Port GPIOC
 #define LED_BOT_GREEN_Pin GPIO_PIN_5
 #define LED_BOT_GREEN_GPIO_Port GPIOC
+#define SEG7_A_Pin GPIO_PIN_0
+#define SEG7_A_GPIO_Port GPIOB
+#define SEG7_B_Pin GPIO_PIN_1
+#define SEG7_B_GPIO_Port GPIOB
 #define LED_RIGHT_RED_Pin GPIO_PIN_6
 #define LED_RIGHT_RED_GPIO_Port GPIOC
 #define LED_RIGHT_YELLOW_Pin GPIO_PIN_7
@@ -77,10 +87,22 @@ void Error_Handler(void);
 #define LED_RIGHT_GREEN_GPIO_Port GPIOC
 #define LED_TOP_RED_Pin GPIO_PIN_9
 #define LED_TOP_RED_GPIO_Port GPIOC
+#define SEG7_CTRL_2_Pin GPIO_PIN_8
+#define SEG7_CTRL_2_GPIO_Port GPIOA
+#define SEG7_CTRL_3_Pin GPIO_PIN_9
+#define SEG7_CTRL_3_GPIO_Port GPIOA
 #define LED_TOP_YELLOW_Pin GPIO_PIN_10
 #define LED_TOP_YELLOW_GPIO_Port GPIOC
 #define LED_TOP_GREEN_Pin GPIO_PIN_11
 #define LED_TOP_GREEN_GPIO_Port GPIOC
+#define SEG7_D_Pin GPIO_PIN_4
+#define SEG7_D_GPIO_Port GPIOB
+#define SEG7_E_Pin GPIO_PIN_5
+#define SEG7_E_GPIO_Port GPIOB
+#define SEG7_F_Pin GPIO_PIN_6
+#define SEG7_F_GPIO_Port GPIOB
+#define SEG7_G_Pin GPIO_PIN_7
+#define SEG7_G_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
