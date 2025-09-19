@@ -164,12 +164,20 @@ void controlTraffic() {
 	HAL_GPIO_TogglePin(LED_BOT_RED_GPIO_Port, LED_BOT_RED_Pin);
 	HAL_GPIO_TogglePin(LED_LEFT_GREEN_GPIO_Port, LED_LEFT_GREEN_Pin);
 	HAL_GPIO_TogglePin(LED_RIGHT_GREEN_GPIO_Port, LED_RIGHT_GREEN_Pin);
-	HAL_Delay(3000);
+	sevenSegmentControl(5);
+	HAL_Delay(1000);
+	sevenSegmentControl(4);
+	HAL_Delay(1000);
+	sevenSegmentControl(3);
+	HAL_Delay(1000);
 	HAL_GPIO_TogglePin(LED_LEFT_GREEN_GPIO_Port, LED_LEFT_GREEN_Pin);
 	HAL_GPIO_TogglePin(LED_RIGHT_GREEN_GPIO_Port, LED_RIGHT_GREEN_Pin);
 	HAL_GPIO_TogglePin(LED_LEFT_YELLOW_GPIO_Port, LED_LEFT_YELLOW_Pin);
 	HAL_GPIO_TogglePin(LED_RIGHT_YELLOW_GPIO_Port, LED_RIGHT_YELLOW_Pin);
-	HAL_Delay(2000);
+	sevenSegmentControl(2);
+	HAL_Delay(1000);
+	sevenSegmentControl(1);
+	HAL_Delay(1000);
 	HAL_GPIO_TogglePin(LED_TOP_RED_GPIO_Port, LED_TOP_RED_Pin);
 	HAL_GPIO_TogglePin(LED_BOT_RED_GPIO_Port, LED_BOT_RED_Pin);
 	HAL_GPIO_TogglePin(LED_TOP_GREEN_GPIO_Port, LED_TOP_GREEN_Pin);
@@ -178,12 +186,20 @@ void controlTraffic() {
 	HAL_GPIO_TogglePin(LED_RIGHT_YELLOW_GPIO_Port, LED_RIGHT_YELLOW_Pin);
 	HAL_GPIO_TogglePin(LED_LEFT_RED_GPIO_Port, LED_LEFT_RED_Pin);
 	HAL_GPIO_TogglePin(LED_RIGHT_RED_GPIO_Port, LED_RIGHT_RED_Pin);
-	HAL_Delay(3000);
+	sevenSegmentControl(3);
+	HAL_Delay(1000);
+	sevenSegmentControl(2);
+	HAL_Delay(1000);
+	sevenSegmentControl(1);
+	HAL_Delay(1000);
 	HAL_GPIO_TogglePin(LED_TOP_GREEN_GPIO_Port, LED_TOP_GREEN_Pin);
 	HAL_GPIO_TogglePin(LED_BOT_GREEN_GPIO_Port, LED_BOT_GREEN_Pin);
 	HAL_GPIO_TogglePin(LED_TOP_YELLOW_GPIO_Port, LED_TOP_YELLOW_Pin);
 	HAL_GPIO_TogglePin(LED_BOT_YELLOW_GPIO_Port, LED_BOT_YELLOW_Pin);
-	HAL_Delay(2000);
+	sevenSegmentControl(2);
+	HAL_Delay(1000);
+	sevenSegmentControl(1);
+	HAL_Delay(1000);
 	HAL_GPIO_TogglePin(LED_LEFT_RED_GPIO_Port, LED_LEFT_RED_Pin);
 	HAL_GPIO_TogglePin(LED_RIGHT_RED_GPIO_Port, LED_RIGHT_RED_Pin);
 	HAL_GPIO_TogglePin(LED_TOP_YELLOW_GPIO_Port, LED_TOP_YELLOW_Pin);
@@ -199,7 +215,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	uint8_t counter = 0;
+	uint8_t counter = 9;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -231,16 +247,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  // controlTraffic();
-//	  HAL_GPIO_TogglePin(SEG7_CTRL_GPIO_Port, SEG7_CTRL_Pin);
-//	  HAL_GPIO_TogglePin(SEG7_CTRL_GPIO_Port, SEG7_CTRL_Pin);
 	  HAL_GPIO_WritePin(SEG7_CTRL_0_GPIO_Port, SEG7_CTRL_0_Pin, 1);
 	  HAL_GPIO_WritePin(SEG7_CTRL_1_GPIO_Port, SEG7_CTRL_1_Pin, 1);
 	  HAL_GPIO_WritePin(SEG7_CTRL_2_GPIO_Port, SEG7_CTRL_2_Pin, 1);
 	  HAL_GPIO_WritePin(SEG7_CTRL_3_GPIO_Port, SEG7_CTRL_3_Pin, 0);
-	  if (counter >= 10) counter = 0;
-	  sevenSegmentControl(counter++);
-	  HAL_Delay(1000);
+	  controlTraffic();
 
   }
   /* USER CODE END 3 */
