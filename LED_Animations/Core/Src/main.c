@@ -54,7 +54,40 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void controlTraffic() {
+  HAL_GPIO_TogglePin(LED_TOP_RED_GPIO_Port, LED_TOP_RED_Pin);
+  HAL_GPIO_TogglePin(LED_BOT_RED_GPIO_Port, LED_BOT_RED_Pin);
+  HAL_GPIO_TogglePin(LED_LEFT_GREEN_GPIO_Port, LED_LEFT_GREEN_Pin);
+  HAL_GPIO_TogglePin(LED_RIGHT_GREEN_GPIO_Port, LED_RIGHT_GREEN_Pin);
+  HAL_Delay(3000);
+  HAL_GPIO_TogglePin(LED_LEFT_GREEN_GPIO_Port, LED_LEFT_GREEN_Pin);
+  HAL_GPIO_TogglePin(LED_RIGHT_GREEN_GPIO_Port, LED_RIGHT_GREEN_Pin);
+  HAL_GPIO_TogglePin(LED_LEFT_YELLOW_GPIO_Port, LED_LEFT_YELLOW_Pin);
+  HAL_GPIO_TogglePin(LED_RIGHT_YELLOW_GPIO_Port, LED_RIGHT_YELLOW_Pin);
+  HAL_Delay(2000);
+  HAL_GPIO_TogglePin(LED_TOP_RED_GPIO_Port, LED_TOP_RED_Pin);
+  HAL_GPIO_TogglePin(LED_BOT_RED_GPIO_Port, LED_BOT_RED_Pin);
+  HAL_GPIO_TogglePin(LED_TOP_GREEN_GPIO_Port, LED_TOP_GREEN_Pin);
+  HAL_GPIO_TogglePin(LED_BOT_GREEN_GPIO_Port, LED_BOT_GREEN_Pin);
+  HAL_GPIO_TogglePin(LED_LEFT_YELLOW_GPIO_Port, LED_LEFT_YELLOW_Pin);
+  HAL_GPIO_TogglePin(LED_RIGHT_YELLOW_GPIO_Port, LED_RIGHT_YELLOW_Pin);
+  HAL_GPIO_TogglePin(LED_LEFT_RED_GPIO_Port, LED_LEFT_RED_Pin);
+  HAL_GPIO_TogglePin(LED_RIGHT_RED_GPIO_Port, LED_RIGHT_RED_Pin);
+  HAL_Delay(3000);
+  HAL_GPIO_TogglePin(LED_TOP_GREEN_GPIO_Port, LED_TOP_GREEN_Pin);
+  HAL_GPIO_TogglePin(LED_BOT_GREEN_GPIO_Port, LED_BOT_GREEN_Pin);
+  HAL_GPIO_TogglePin(LED_TOP_YELLOW_GPIO_Port, LED_TOP_YELLOW_Pin);
+  HAL_GPIO_TogglePin(LED_BOT_YELLOW_GPIO_Port, LED_BOT_YELLOW_Pin);
+  HAL_Delay(2000);
+  HAL_GPIO_TogglePin(LED_LEFT_RED_GPIO_Port, LED_LEFT_RED_Pin);
+  HAL_GPIO_TogglePin(LED_RIGHT_RED_GPIO_Port, LED_RIGHT_RED_Pin);
+  HAL_GPIO_TogglePin(LED_TOP_YELLOW_GPIO_Port, LED_TOP_YELLOW_Pin);
+  HAL_GPIO_TogglePin(LED_BOT_YELLOW_GPIO_Port, LED_BOT_YELLOW_Pin);
 
+
+  
+
+}
 /* USER CODE END 0 */
 
 /**
@@ -97,15 +130,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_Delay(5000);
-	  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
-	  HAL_GPIO_TogglePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin);
-	  HAL_Delay(2000);
-	  HAL_GPIO_TogglePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin);
-	  HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-	  HAL_Delay(3000);
-	  HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-	  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+	  controlTraffic();
   }
   /* USER CODE END 3 */
 }
@@ -162,13 +187,16 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, LED_LEFT_RED_Pin|LED_LEFT_YELLOW_Pin|LED_LEFT_GREEN_Pin|LED_BOT_RED_Pin
+                          |LED_BOT_YELLOW_Pin|LED_BOT_GREEN_Pin|LED_RIGHT_RED_Pin|LED_RIGHT_YELLOW_Pin
+                          |LED_RIGHT_GREEN_Pin|LED_TOP_RED_Pin|LED_TOP_YELLOW_Pin|LED_TOP_GREEN_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, LED_YELLOW_Pin|LED_GREEN_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pins : LED_RED_Pin LED_YELLOW_Pin LED_GREEN_Pin */
-  GPIO_InitStruct.Pin = LED_RED_Pin|LED_YELLOW_Pin|LED_GREEN_Pin;
+  /*Configure GPIO pins : LED_LEFT_RED_Pin LED_LEFT_YELLOW_Pin LED_LEFT_GREEN_Pin LED_BOT_RED_Pin
+                           LED_BOT_YELLOW_Pin LED_BOT_GREEN_Pin LED_RIGHT_RED_Pin LED_RIGHT_YELLOW_Pin
+                           LED_RIGHT_GREEN_Pin LED_TOP_RED_Pin LED_TOP_YELLOW_Pin LED_TOP_GREEN_Pin */
+  GPIO_InitStruct.Pin = LED_LEFT_RED_Pin|LED_LEFT_YELLOW_Pin|LED_LEFT_GREEN_Pin|LED_BOT_RED_Pin
+                          |LED_BOT_YELLOW_Pin|LED_BOT_GREEN_Pin|LED_RIGHT_RED_Pin|LED_RIGHT_YELLOW_Pin
+                          |LED_RIGHT_GREEN_Pin|LED_TOP_RED_Pin|LED_TOP_YELLOW_Pin|LED_TOP_GREEN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -180,7 +208,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
 /* USER CODE END 4 */
 
 /**
