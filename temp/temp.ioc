@@ -11,13 +11,7 @@ Mcu.IP1=RCC
 Mcu.IPNb=2
 Mcu.Name=STM32F103R(C-D-E)Tx
 Mcu.Package=LQFP64
-<<<<<<< HEAD
 Mcu.PinsNb=0
-=======
-Mcu.Pin0=PC0
-Mcu.Pin1=PC1
-Mcu.PinsNb=2
->>>>>>> main
 Mcu.ThirdPartyNb=0
 Mcu.UserConstants=
 Mcu.UserName=STM32F103RCTx
@@ -34,13 +28,6 @@ NVIC.PriorityGroup=NVIC_PRIORITYGROUP_4
 NVIC.SVCall_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.SysTick_IRQn=true\:15\:0\:false\:false\:true\:false\:true\:false
 NVIC.UsageFault_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
-<<<<<<< HEAD
-=======
-PC0.Locked=true
-PC0.Signal=GPIO_Output
-PC1.Locked=true
-PC1.Signal=GPIO_Output
->>>>>>> main
 PinOutPanel.RotationAngle=0
 ProjectManager.AskForMigrate=true
 ProjectManager.BackupPrevious=false
@@ -63,8 +50,8 @@ ProjectManager.MainLocation=Core/Src
 ProjectManager.NoMain=false
 ProjectManager.PreviousToolchain=
 ProjectManager.ProjectBuild=false
-ProjectManager.ProjectFileName=LED_Animations.ioc
-ProjectManager.ProjectName=LED_Animations
+ProjectManager.ProjectFileName=temp.ioc
+ProjectManager.ProjectName=temp
 ProjectManager.ProjectStructure=
 ProjectManager.RegisterCallBack=
 ProjectManager.StackSize=0x400
@@ -73,11 +60,7 @@ ProjectManager.ToolChainLocation=
 ProjectManager.UAScriptAfterPath=
 ProjectManager.UAScriptBeforePath=
 ProjectManager.UnderRoot=true
-<<<<<<< HEAD
 ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false
-=======
-ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true
->>>>>>> main
 RCC.APB1Freq_Value=8000000
 RCC.APB2Freq_Value=8000000
 RCC.FamilyName=M
