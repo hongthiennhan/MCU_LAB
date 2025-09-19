@@ -1,0 +1,27 @@
+# STM32CubeIDE build files
+Debug/
+Release/
+build/
+*.elf
+*.bin
+*.hex
+*.map
+*.o
+*.d
+
+# STM32CubeIDE project settings (có thể bỏ nếu bạn muốn giữ cấu hình IDE chung cho team)
+.settings/
+*.launch
+*.project
+*.cproject
+.metadata/
+
+# Backup & temp files
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
