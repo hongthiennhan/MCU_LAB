@@ -159,6 +159,21 @@ void sevenSegmentControl(uint8_t num) {
 	}
 }
 
+void clearAllClock() {
+	HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, 0);
+	HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, 0);
+	HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, 0);
+	HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, 0);
+	HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, 0);
+	HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, 0);
+	HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, 0);
+	HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, 0);
+	HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, 0);
+	HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, 0);
+	HAL_GPIO_WritePin(LED_11_GPIO_Port, LED_11_Pin, 0);
+	HAL_GPIO_WritePin(LED_12_GPIO_Port, LED_12_Pin, 0);
+}
+
 void clockControl(uint8_t num, uint8_t status) {
 	switch (num) {
 		case 1: { HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, status); break; }
@@ -224,8 +239,7 @@ int main(void)
 	  HAL_GPIO_WritePin(SEG7_CTRL_3_GPIO_Port, SEG7_CTRL_3_Pin, 1);
 //	  controlTraffic();
 	  if (counter > 12) counter = 1;
-	  if (counter == 1) clockControl(12, 0);
-	  else clockControl(counter - 1, 0);
+	  clearAllClock();
 	  clockControl(counter++, 1);
 	  HAL_Delay(1000);
   }
