@@ -158,24 +158,6 @@ void sevenSegmentControl(uint8_t num) {
 			break;
 	}
 }
-
-void clockControl(uint8_t num, uint8_t status) {
-	switch (num) {
-		case 1: { HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, status); break; }
-		case 2: { HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, status); break; }
-		case 3: { HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, status); break; }
-		case 4: { HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, status); break; }
-		case 5: { HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, status); break; }
-		case 6: { HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, status); break; }
-		case 7: { HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, status); break; }
-		case 8: { HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, status); break; }
-		case 9: { HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, status); break; }
-		case 10: { HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, status); break; }
-		case 11: { HAL_GPIO_WritePin(LED_11_GPIO_Port, LED_11_Pin, status); break; }
-		case 12: { HAL_GPIO_WritePin(LED_12_GPIO_Port, LED_12_Pin, status); break; }
-		default : break;
-	}
-}
 /* USER CODE END 0 */
 
 /**
@@ -223,12 +205,21 @@ int main(void)
 	  HAL_GPIO_WritePin(SEG7_CTRL_2_GPIO_Port, SEG7_CTRL_2_Pin, 1);
 	  HAL_GPIO_WritePin(SEG7_CTRL_3_GPIO_Port, SEG7_CTRL_3_Pin, 1);
 //	  controlTraffic();
-	  if (counter > 12) counter = 1;
-	  if (counter == 1) clockControl(12, 0);
-	  else clockControl(counter - 1, 0);
-	  clockControl(counter++, 1);
-	  HAL_Delay(1000);
-  }
+
+	HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
+	HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin);
+	HAL_GPIO_TogglePin(LED_3_GPIO_Port, LED_3_Pin);
+	HAL_GPIO_TogglePin(LED_4_GPIO_Port, LED_4_Pin);
+	HAL_GPIO_TogglePin(LED_5_GPIO_Port, LED_5_Pin);
+	HAL_GPIO_TogglePin(LED_6_GPIO_Port, LED_6_Pin);
+	HAL_GPIO_TogglePin(LED_7_GPIO_Port, LED_7_Pin);
+	HAL_GPIO_TogglePin(LED_8_GPIO_Port, LED_8_Pin);
+	HAL_GPIO_TogglePin(LED_9_GPIO_Port, LED_9_Pin);
+	HAL_GPIO_TogglePin(LED_10_GPIO_Port, LED_10_Pin);
+	HAL_GPIO_TogglePin(LED_11_GPIO_Port, LED_11_Pin);
+	HAL_GPIO_TogglePin(LED_12_GPIO_Port, LED_12_Pin);
+    HAL_Delay(500);
+}
   /* USER CODE END 3 */
 }
 
