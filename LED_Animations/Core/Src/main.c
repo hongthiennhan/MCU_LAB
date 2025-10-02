@@ -174,116 +174,58 @@ void clearAllClock() {
 	HAL_GPIO_WritePin(LED_12_GPIO_Port, LED_12_Pin, 0);
 }
 
-clearNumberOnClock(uint8_t num) {
-	switch (num) {
-			case 1:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW1_GPIO_Port, MATRIX_ROW1_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW2_GPIO_Port, MATRIX_ROW2_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL2_GPIO_Port, MATRIX_COL2_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL3_GPIO_Port, MATRIX_COL3_Pin, 0);
-				break;
-			case 2:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW1_GPIO_Port, MATRIX_ROW1_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW2_GPIO_Port, MATRIX_ROW2_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL4_GPIO_Port, MATRIX_COL4_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL5_GPIO_Port, MATRIX_COL5_Pin, 0);
-				break;
-			case 3:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW1_GPIO_Port, MATRIX_ROW1_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW2_GPIO_Port, MATRIX_ROW2_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL6_GPIO_Port, MATRIX_COL6_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL7_GPIO_Port, MATRIX_COL7_Pin, 0);
-				break;
-			case 4:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW2_GPIO_Port, MATRIX_ROW2_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW3_GPIO_Port, MATRIX_ROW3_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL7_GPIO_Port, MATRIX_COL7_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL8_GPIO_Port, MATRIX_COL8_Pin, 0);
-				break;
-			case 5:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW4_GPIO_Port, MATRIX_ROW4_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW5_GPIO_Port, MATRIX_ROW5_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL7_GPIO_Port, MATRIX_COL7_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL8_GPIO_Port, MATRIX_COL8_Pin, 0);
-				break;
-			case 6:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW6_GPIO_Port, MATRIX_ROW6_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW7_GPIO_Port, MATRIX_ROW7_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL7_GPIO_Port, MATRIX_COL7_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL8_GPIO_Port, MATRIX_COL8_Pin, 0);
-				break;
-			case 7:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW7_GPIO_Port, MATRIX_ROW7_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW8_GPIO_Port, MATRIX_ROW8_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL7_GPIO_Port, MATRIX_COL7_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL6_GPIO_Port, MATRIX_COL6_Pin, 0);
-				break;
-			case 8:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW7_GPIO_Port, MATRIX_ROW7_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW8_GPIO_Port, MATRIX_ROW8_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL5_GPIO_Port, MATRIX_COL5_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL4_GPIO_Port, MATRIX_COL4_Pin, 0);
-				break;
-			case 9:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW7_GPIO_Port, MATRIX_ROW7_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW8_GPIO_Port, MATRIX_ROW8_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL3_GPIO_Port, MATRIX_COL3_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL1_GPIO_Port, MATRIX_COL2_Pin, 0);
-				break;
-			case 10:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW7_GPIO_Port, MATRIX_ROW7_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW6_GPIO_Port, MATRIX_ROW6_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL1_GPIO_Port, MATRIX_COL1_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL2_GPIO_Port, MATRIX_COL2_Pin, 0);
-				break;
-			case 11:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW5_GPIO_Port, MATRIX_ROW5_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW4_GPIO_Port, MATRIX_ROW4_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL1_GPIO_Port, MATRIX_COL1_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL2_GPIO_Port, MATRIX_COL2_Pin, 0);
-				break;
-			case 12:
-				clearAllClock();
-				HAL_GPIO_WritePin(MATRIX_ROW3_GPIO_Port, MATRIX_ROW3_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_ROW2_GPIO_Port, MATRIX_ROW2_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL1_GPIO_Port, MATRIX_COL1_Pin, 0);
-				HAL_GPIO_WritePin(MATRIX_COL2_GPIO_Port, MATRIX_COL2_Pin, 0);
-				break;
-		}
-}
+// void clockControl(uint8_t num, uint8_t status) {
+// 	switch (num) {
+// 		case 1: { HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, status); break; }
+// 		case 2: { HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, status); break; }
+// 		case 3: { HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, status); break; }
+// 		case 4: { HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, status); break; }
+// 		case 5: { HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, status); break; }
+// 		case 6: { HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, status); break; }
+// 		case 7: { HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, status); break; }
+// 		case 8: { HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, status); break; }
+// 		case 9: { HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, status); break; }
+// 		case 10: { HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, status); break; }
+// 		case 11: { HAL_GPIO_WritePin(LED_11_GPIO_Port, LED_11_Pin, status); break; }
+// 		case 12: { HAL_GPIO_WritePin(LED_12_GPIO_Port, LED_12_Pin, status); break; }
+// 		default : break;
+// 	}
+// }
 
-void clockControl(uint8_t num, uint8_t status) {
+void setNumberOnClock(uint8_t num) {
 	switch (num) {
-		case 1: { HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, status); break; }
-		case 2: { HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, status); break; }
-		case 3: { HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, status); break; }
-		case 4: { HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, status); break; }
-		case 5: { HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, status); break; }
-		case 6: { HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, status); break; }
-		case 7: { HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, status); break; }
-		case 8: { HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, status); break; }
-		case 9: { HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, status); break; }
-		case 10: { HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, status); break; }
-		case 11: { HAL_GPIO_WritePin(LED_11_GPIO_Port, LED_11_Pin, status); break; }
-		case 12: { HAL_GPIO_WritePin(LED_12_GPIO_Port, LED_12_Pin, status); break; }
+		case 1: { HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, 1); break; }
+		case 2: { HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, 1); break; }
+		case 3: { HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, 1); break; }
+		case 4: { HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, 1); break; }
+		case 5: { HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, 1); break; }
+		case 6: { HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, 1); break; }
+		case 7: { HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, 1); break; }
+		case 8: { HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, 1); break; }
+		case 9: { HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, 1); break; }
+		case 10: { HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, 1); break; }
+		case 11: { HAL_GPIO_WritePin(LED_11_GPIO_Port, LED_11_Pin, 1); break; }
+		case 12: { HAL_GPIO_WritePin(LED_12_GPIO_Port, LED_12_Pin, 1); break; }
 		default : break;
 	}
 }
 
-void setNumberOnClock(uint8_t num) {
-	clearAllClock();
-	clockControl(num, 1);
+clearNumberOnClock(uint8_t num) {
+	switch (num) {
+		case 1: { HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, 0); break; }
+		case 2: { HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, 0); break; }
+		case 3: { HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, 0); break; }
+		case 4: { HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, 0); break; }
+		case 5: { HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, 0); break; }
+		case 6: { HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, 0); break; }
+		case 7: { HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, 0); break; }
+		case 8: { HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, 0); break; }
+		case 9: { HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, 0); break; }
+		case 10: { HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, 0); break; }
+		case 11: { HAL_GPIO_WritePin(LED_11_GPIO_Port, LED_11_Pin, 0); break; }
+		case 12: { HAL_GPIO_WritePin(LED_12_GPIO_Port, LED_12_Pin, 0); break; }
+		default : break;
+	}
 }
 /* USER CODE END 0 */
 
@@ -333,11 +275,10 @@ int main(void)
 	  HAL_GPIO_WritePin(SEG7_CTRL_3_GPIO_Port, SEG7_CTRL_3_Pin, 1);
 //	  controlTraffic();
 //	  clockControl();
-	  if (counter > 12) counter = 1;
-	  setNumberOnClock(counter);
-	  HAL_Delay(750);
-	  clearNumberOnClock(counter++);
-	  HAL_Delay(250);
+	  if (counter > 24) counter = 1;
+	  if (counter <= 12) setNumberOnClock(counter++);
+	  else clearNumberOnClock(-12 + counter++);
+	  HAL_Delay(500);
   }
   /* USER CODE END 3 */
 }
