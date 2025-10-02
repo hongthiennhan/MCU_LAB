@@ -214,6 +214,8 @@ void setClock(uint8_t hour, uint8_t minute, uint8_t second) {
   clearAllClock();
   if (hour < 12) setNumberOnClock(hour);
   else setNumberOnClock(hour - 12);
+  setNumberOnClock(minute / 5);
+  setNumberOnClock(second / 5);
 }
 
 /* USER CODE END 0 */
@@ -265,10 +267,13 @@ int main(void)
 	  HAL_GPIO_WritePin(SEG7_CTRL_1_GPIO_Port, SEG7_CTRL_1_Pin, 1);
 	  HAL_GPIO_WritePin(SEG7_CTRL_2_GPIO_Port, SEG7_CTRL_2_Pin, 1);
 	  HAL_GPIO_WritePin(SEG7_CTRL_3_GPIO_Port, SEG7_CTRL_3_Pin, 1);
+
+	  if (second > 60) { second = 0; minute++; }
+	  if (minute > 60) { minute = 0; hour++; }
+	  if (hour >= 24) hour = 0;
+	  setClock(hour, minute, second++);
+	  HAL_Delay(5);
   }
-  if (hour > 24) hour = 0;
-  setNumberOnClock(hour++);
-  HAL_Delay(500);
   /* USER CODE END 3 */
 }
 
