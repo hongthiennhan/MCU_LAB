@@ -54,7 +54,7 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void sevenSegmentControl(uint8_t num) {
+void display7SEG(uint8_t num) {
 	switch (num) {
 		case 0:
 			HAL_GPIO_WritePin(SEG7_A_GPIO_Port, SEG7_A_Pin, 0);
@@ -164,19 +164,19 @@ void controlTraffic() {
 	HAL_GPIO_TogglePin(LED_BOT_RED_GPIO_Port, LED_BOT_RED_Pin);
 	HAL_GPIO_TogglePin(LED_LEFT_GREEN_GPIO_Port, LED_LEFT_GREEN_Pin);
 	HAL_GPIO_TogglePin(LED_RIGHT_GREEN_GPIO_Port, LED_RIGHT_GREEN_Pin);
-	sevenSegmentControl(5);
+	display7SEG(5);
 	HAL_Delay(1000);
-	sevenSegmentControl(4);
+	display7SEG(4);
 	HAL_Delay(1000);
-	sevenSegmentControl(3);
+	display7SEG(3);
 	HAL_Delay(1000);
 	HAL_GPIO_TogglePin(LED_LEFT_GREEN_GPIO_Port, LED_LEFT_GREEN_Pin);
 	HAL_GPIO_TogglePin(LED_RIGHT_GREEN_GPIO_Port, LED_RIGHT_GREEN_Pin);
 	HAL_GPIO_TogglePin(LED_LEFT_YELLOW_GPIO_Port, LED_LEFT_YELLOW_Pin);
 	HAL_GPIO_TogglePin(LED_RIGHT_YELLOW_GPIO_Port, LED_RIGHT_YELLOW_Pin);
-	sevenSegmentControl(2);
+	display7SEG(2);
 	HAL_Delay(1000);
-	sevenSegmentControl(1);
+	display7SEG(1);
 	HAL_Delay(1000);
 	HAL_GPIO_TogglePin(LED_TOP_RED_GPIO_Port, LED_TOP_RED_Pin);
 	HAL_GPIO_TogglePin(LED_BOT_RED_GPIO_Port, LED_BOT_RED_Pin);
@@ -186,19 +186,19 @@ void controlTraffic() {
 	HAL_GPIO_TogglePin(LED_RIGHT_YELLOW_GPIO_Port, LED_RIGHT_YELLOW_Pin);
 	HAL_GPIO_TogglePin(LED_LEFT_RED_GPIO_Port, LED_LEFT_RED_Pin);
 	HAL_GPIO_TogglePin(LED_RIGHT_RED_GPIO_Port, LED_RIGHT_RED_Pin);
-	sevenSegmentControl(3);
+	display7SEG(3);
 	HAL_Delay(1000);
-	sevenSegmentControl(2);
+	display7SEG(2);
 	HAL_Delay(1000);
-	sevenSegmentControl(1);
+	display7SEG(1);
 	HAL_Delay(1000);
 	HAL_GPIO_TogglePin(LED_TOP_GREEN_GPIO_Port, LED_TOP_GREEN_Pin);
 	HAL_GPIO_TogglePin(LED_BOT_GREEN_GPIO_Port, LED_BOT_GREEN_Pin);
 	HAL_GPIO_TogglePin(LED_TOP_YELLOW_GPIO_Port, LED_TOP_YELLOW_Pin);
 	HAL_GPIO_TogglePin(LED_BOT_YELLOW_GPIO_Port, LED_BOT_YELLOW_Pin);
-	sevenSegmentControl(2);
+	display7SEG(2);
 	HAL_Delay(1000);
-	sevenSegmentControl(1);
+	display7SEG(1);
 	HAL_Delay(1000);
 	HAL_GPIO_TogglePin(LED_LEFT_RED_GPIO_Port, LED_LEFT_RED_Pin);
 	HAL_GPIO_TogglePin(LED_RIGHT_RED_GPIO_Port, LED_RIGHT_RED_Pin);
