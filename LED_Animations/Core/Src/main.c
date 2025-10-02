@@ -54,7 +54,7 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void sevenSegmentControl(uint8_t num) {
+void display7SEG(uint8_t num) {
 	switch (num) {
 		case 0:
 			HAL_GPIO_WritePin(SEG7_A_GPIO_Port, SEG7_A_Pin, 0);
@@ -239,7 +239,7 @@ int main(void)
 	  HAL_GPIO_WritePin(SEG7_CTRL_2_GPIO_Port, SEG7_CTRL_2_Pin, 1);
 	  HAL_GPIO_WritePin(SEG7_CTRL_3_GPIO_Port, SEG7_CTRL_3_Pin, 0);
 	  if (counter >= 10) counter = 0;
-	  sevenSegmentControl(counter++);
+	  display7SEG(counter++);
 	  HAL_Delay(1000);
 
   }
