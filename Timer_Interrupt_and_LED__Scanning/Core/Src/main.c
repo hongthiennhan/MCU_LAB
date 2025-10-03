@@ -157,7 +157,7 @@ void display7SEG(uint8_t num) {
 			HAL_GPIO_WritePin(LED_7SEG_E_GPIO_Port, LED_7SEG_E_Pin, 1);
 			HAL_GPIO_WritePin(LED_7SEG_F_GPIO_Port, LED_7SEG_F_Pin, 1);
 			HAL_GPIO_WritePin(LED_7SEG_G_GPIO_Port, LED_7SEG_G_Pin, 1);
-			break;s
+			break;
 	}
 }
 /* USER CODE END 0 */
@@ -195,7 +195,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
-  HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 0);
+  HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
+  HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 1);
+  HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -264,9 +266,9 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 7999;
+  htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 99;
+  htim2.Init.Period = 65535;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -338,20 +340,30 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-volatile uint8_t counter = 10;
+volatile uint8_t counter = 20;
 volatile uint8_t timer = 1000;
 volatile uint8_t num1 = 0;
 volatile uint8_t num2 = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	counter--;
-	if(counter <= 0){
-		counter = 10;
-		HAL_GPIO_TogglePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin);
-		HAL_GPIO_TogglePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin);
+	if (counter <= 10) {
+		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
+		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
+		display7SEG(num1);
+	}
+	if (counter <= 0) {
+		counter = 20;
+		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
+		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
+		display7SEG(num2);
 	}
 
 	timer--;
-	i
+	if (timer <= 0) {
+		timer = 1000;
+		if (num2 >= 9) num1 = (num1 + 1) % 10;
+		num2 = (num2 + 1) % 10;
+	}
 }
 /* USER CODE END 4 */
 
