@@ -157,7 +157,7 @@ void display7SEG(uint8_t num) {
 			HAL_GPIO_WritePin(LED_7SEG_E_GPIO_Port, LED_7SEG_E_Pin, 1);
 			HAL_GPIO_WritePin(LED_7SEG_F_GPIO_Port, LED_7SEG_F_Pin, 1);
 			HAL_GPIO_WritePin(LED_7SEG_G_GPIO_Port, LED_7SEG_G_Pin, 1);
-			break;
+			break;s
 	}
 }
 /* USER CODE END 0 */
