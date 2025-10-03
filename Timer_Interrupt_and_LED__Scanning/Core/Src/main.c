@@ -198,6 +198,13 @@ void update7SEG(uint8_t index) {
       break;
   }
 }
+
+void updateClockBuffer(uint8_t hour, uint8_t minute, uint8_t second) {
+  ledBuffer[0] = hour / 10;
+  ledBuffer[1] = hour % 10;
+  ledBuffer[2] = minute / 10;
+  ledBuffer[3] = minute % 10;
+}
 /* USER CODE END 0 */
 
 /**
@@ -231,6 +238,8 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  uint8_t hour = 15, minute = 8, second = 50;
+  
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
   HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
@@ -243,7 +252,20 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+    second++;
+    if (second >= 60) {
+      second = 0;
+      minute++;
+    }
+    if (minute >= 60) {
+      minute = 0;
+      hour++;
+    }
+    if (hour >= 24) {
+      hour = 0;
+    }
+    updateClockBuffer(hour, minute, second);
+    HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
