@@ -57,7 +57,7 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 const uint8_t MAX_LED = 4;
-uint8_t ledBuffer[MAX_LED] = {0, 0, 0, 0};
+volatile uint8_t ledBuffer[MAX_LED] = {0, 0, 0, 0};
 
 void display7SEG(uint8_t num) {
 	switch (num) {
@@ -378,14 +378,29 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-volatile uint8_t timer = 100;
+volatile uint8_t timer = 1000;
+volatile uint8_t counter = 100;
 volatile uint8_t ledIndex = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  timer--;
-  if (timer <= 0) {
+  counter--;
+  if (counter <= 0) {
     update7SEG(ledIndex);
     ledIndex = (ledIndex + 1) % MAX_LED;
-    timer = 100;
+    counter = 100;
+  }
+  
+  timer--;
+  if (timer <= 0) {
+    timer = 1000;
+    ledBuffer[3]++;
+    if (ledBuffer[3] >= 10) ledBuffer[2]++;
+    if (ledBuffer[2] >= 10) ledBuffer[1]++;
+    if (ledBuffer[1] >= 10) ledBuffer[0]++;
+    ledBuffer[0] %= 10;
+    ledBuffer[1] %= 10;
+    ledBuffer[2] %= 10;
+    ledBuffer[3] %= 10;
+  }
 }
 /* USER CODE END 4 */
 
