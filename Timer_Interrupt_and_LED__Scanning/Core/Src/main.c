@@ -57,7 +57,7 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 const uint8_t MAX_LED = 4;
-volatile uint8_t ledBuffer[MAX_LED] = {0, 0, 0, 0};
+volatile uint8_t ledBuffer[4] = {0, 0, 0, 0};
 
 void display7SEG(uint8_t num) {
 	switch (num) {
