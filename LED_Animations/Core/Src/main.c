@@ -238,8 +238,7 @@ int main(void)
 	  HAL_GPIO_WritePin(SEG7_CTRL_2_GPIO_Port, SEG7_CTRL_2_Pin, 1);
 	  HAL_GPIO_WritePin(SEG7_CTRL_3_GPIO_Port, SEG7_CTRL_3_Pin, 1);
 //	  controlTraffic();
-	  if (counter > 12) counter = 1;
-	  clearAllClock();
+	  if (counter > 12) { counter = 1; clearAllClock(); HAL_Delay(1000); }
 	  clockControl(counter++, 1);
 	  HAL_Delay(1000);
   }
