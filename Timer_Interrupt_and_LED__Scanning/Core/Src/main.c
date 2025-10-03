@@ -340,29 +340,32 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-volatile uint8_t counter = 20;
+volatile uint8_t counter = 40;
 volatile uint8_t timer = 1000;
 volatile uint8_t num1 = 0;
 volatile uint8_t num2 = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	counter--;
-	if (counter <= 10) {
+	if (counter <= 30) {
 		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
+		HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 1);
+		display7SEG(1);
+	}
+	if (counter <= 20) {
 		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
-		display7SEG(num1);
+		HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 0);
+		display7SEG(2);
+	}
+	if (counter <= 10) {
+		HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
+		HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
+		display7SEG(3);
 	}
 	if (counter <= 0) {
-		counter = 20;
+		counter = 40;
 		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
 		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
-		display7SEG(num2);
-	}
-
-	timer--;
-	if (timer <= 0) {
-		timer = 1000;
-		if (num2 >= 9) num1 = (num1 + 1) % 10;
-		num2 = (num2 + 1) % 10;
+		display7SEG(0);
 	}
 }
 /* USER CODE END 4 */
