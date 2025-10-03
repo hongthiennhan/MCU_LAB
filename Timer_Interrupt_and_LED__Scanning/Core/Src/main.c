@@ -56,6 +56,9 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+const uint8_t MAX_LED = 4;
+uint8_t ledBuffer[MAX_LED] = {0, 0, 0, 0};
+
 void display7SEG(uint8_t num) {
 	switch (num) {
 		case 0:
@@ -159,6 +162,41 @@ void display7SEG(uint8_t num) {
 			HAL_GPIO_WritePin(LED_7SEG_G_GPIO_Port, LED_7SEG_G_Pin, 1);
 			break;
 	}
+}
+
+void update7SEG(uint8_t index) {
+  switch (index) {
+    case 0: 
+      HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
+      HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
+      HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 1);
+      HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 1);
+      display7SEG(ledBuffer[0]);
+      break;
+    case 1:
+      HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
+      HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 0);
+      HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 1);
+      HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 1);
+      display7SEG(ledBuffer[1]);
+      break;
+    case 2:
+      HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
+      HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
+      HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 0);
+      HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 1);
+      display7SEG(ledBuffer[2]);
+      break;
+    case 3:
+      HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
+      HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
+      HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 1);
+      HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 0);
+      display7SEG(ledBuffer[3]);
+      break;
+    default:
+      break;
+  }
 }
 /* USER CODE END 0 */
 
@@ -340,30 +378,14 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-volatile uint8_t counter = 20;
-volatile uint8_t timer = 1000;
-volatile uint8_t num1 = 0;
-volatile uint8_t num2 = 0;
+volatile uint8_t timer = 100;
+volatile uint8_t ledIndex = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-	counter--;
-	if (counter <= 10) {
-		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
-		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
-		display7SEG(num1);
-	}
-	if (counter <= 0) {
-		counter = 20;
-		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
-		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
-		display7SEG(num2);
-	}
-
-	timer--;
-	if (timer <= 0) {
-		timer = 1000;
-		if (num2 >= 9) num1 = (num1 + 1) % 10;
-		num2 = (num2 + 1) % 10;
-	}
+  timer--;
+  if (timer <= 0) {
+    update7SEG(ledIndex);
+    ledIndex = (ledIndex + 1) % MAX_LED;
+    timer = 100;
 }
 /* USER CODE END 4 */
 
