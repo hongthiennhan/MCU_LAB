@@ -238,7 +238,7 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t hour = 15, minute = 8, second = 50;
+  uint8_t hour = 23, minute = 58, second = 10;
   
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
@@ -265,7 +265,7 @@ int main(void)
       hour = 0;
     }
     updateClockBuffer(hour, minute, second);
-    HAL_Delay(1000);
+    HAL_Delay(100);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -425,14 +425,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   timer--;
   if (timer <= 0) {
     timer = 1000;
-    ledBuffer[3]++;
-    if (ledBuffer[3] >= 10) ledBuffer[2]++;
-    if (ledBuffer[2] >= 10) ledBuffer[1]++;
-    if (ledBuffer[1] >= 10) ledBuffer[0]++;
-    ledBuffer[0] %= 10;
-    ledBuffer[1] %= 10;
-    ledBuffer[2] %= 10;
-    ledBuffer[3] %= 10;
+//    ledBuffer[3]++;
+//    if (ledBuffer[3] >= 10) ledBuffer[2]++;
+//    if (ledBuffer[2] >= 10) ledBuffer[1]++;
+//    if (ledBuffer[1] >= 10) ledBuffer[0]++;
+//    ledBuffer[0] %= 10;
+//    ledBuffer[1] %= 10;
+//    ledBuffer[2] %= 10;
+//    ledBuffer[3] %= 10;
 
     HAL_GPIO_TogglePin(LED_DOT1_GPIO_Port, LED_DOT1_Pin);
     HAL_GPIO_TogglePin(LED_DOT2_GPIO_Port, LED_DOT2_Pin);
