@@ -56,8 +56,8 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-const uint8_t MAX_LED = 4;
-volatile uint8_t ledBuffer[4] = {0, 0, 0, 0};
+#define MAX_LED 4
+uint8_t ledBuffer[MAX_LED] = {1, 2, 3, 4};
 
 void display7SEG(uint8_t num) {
 	switch (num) {
@@ -326,9 +326,9 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 0;
+  htim2.Init.Prescaler = 799;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 65535;
+  htim2.Init.Period = 9;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -367,6 +367,7 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, LED_7SEG_C_Pin|LED_7SEG1_CTRL_Pin|LED_7SEG2_CTRL_Pin|LED_7SEG3_CTRL_Pin
@@ -375,6 +376,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LED_7SEG_A_Pin|LED_7SEG_B_Pin|LED_7SEG_D_Pin|LED_7SEG_E_Pin
                           |LED_7SEG_F_Pin|LED_7SEG_G_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, LED_DOT1_Pin|LED_DOT2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : LED_7SEG_C_Pin LED_7SEG1_CTRL_Pin LED_7SEG2_CTRL_Pin LED_7SEG3_CTRL_Pin
                            LED_7SEG4_CTRL_Pin */
@@ -394,21 +398,28 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : LED_DOT1_Pin LED_DOT2_Pin */
+  GPIO_InitStruct.Pin = LED_DOT1_Pin|LED_DOT2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
   /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
-volatile uint8_t timer = 1000;
-volatile uint8_t counter = 100;
+volatile uint16_t timer = 1000;
+volatile uint8_t counter = 5;
 volatile uint8_t ledIndex = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   counter--;
   if (counter <= 0) {
     update7SEG(ledIndex);
     ledIndex = (ledIndex + 1) % MAX_LED;
-    counter = 100;
+    counter = 5;
   }
   
   timer--;
@@ -422,6 +433,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
     ledBuffer[1] %= 10;
     ledBuffer[2] %= 10;
     ledBuffer[3] %= 10;
+
+    HAL_GPIO_TogglePin(LED_DOT1_GPIO_Port, LED_DOT1_Pin);
+    HAL_GPIO_TogglePin(LED_DOT2_GPIO_Port, LED_DOT2_Pin);
   }
 }
 /* USER CODE END 4 */
