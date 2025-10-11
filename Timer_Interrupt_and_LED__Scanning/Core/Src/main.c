@@ -236,16 +236,40 @@ void updateClockBuffer(uint8_t hour, uint8_t minute, uint8_t second) {
 
 #define MAX_LED_MATRIX 8
 uint8_t index_led_matrix = 0;
-uint8_t matrix_buffer[MAX_LED_MATRIX] = {
-    0b00111100,
-    0b01100110,
-    0b11000011,
-    0b11000011,
-    0b11111111,
-    0b11000011,
-    0b11000011,
-    0b11000011
+const uint8_t boat_frames[3][5] = {
+  {
+    0b00001000,
+    0b00011100,
+    0b11001001,
+    0b01111111,
+    0b00111110
+  },
+  {
+    0b00010000,
+    0b00111000,
+    0b10010010,
+    0b11111110,
+    0b01111100
+  },
+  {
+    0b00000100,
+    0b00001110,
+    0b01100100,
+    0b00111111,
+    0b00011111
+  }
 };
+uint8_t matrix_buffer[MAX_LED_MATRIX] = {
+  0b00001000,
+  0b00011100,
+  0b11001001,
+  0b01111111,
+  0b00111110,
+  0b01101101,
+  0b11011011,
+  0b11111111 
+};
+
 
 void setColumn(uint8_t data) {
     HAL_GPIO_WritePin(LED_MATRIX_COL0_GPIO_Port, LED_MATRIX_COL0_Pin, (data & 0x01) ? 1 : 0);
@@ -344,6 +368,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   uint8_t hour = 23, minute = 58, second = 10;
   uint8_t ledMaxtrixIndex = 0;
+  uint8_t boatFrameIndex = 0;
   HAL_TIM_Base_Start_IT(&htim2);
   setTimer0(1);
   setTimer1(1);
@@ -362,6 +387,27 @@ int main(void)
 		  updateLEDMatrix(ledMaxtrixIndex);
 		  ledMaxtrixIndex = (ledMaxtrixIndex + 1) % MAX_LED_MATRIX;
 		  setTimer0(1);
+	  }
+
+	  if (timer1_flag) {
+      matrix_buffer[0] = boat_frames[boatFrameIndex][0];
+      matrix_buffer[1] = boat_frames[boatFrameIndex][1];
+      matrix_buffer[2] = boat_frames[boatFrameIndex][2];
+      matrix_buffer[3] = boat_frames[boatFrameIndex][3];
+      matrix_buffer[4] = boat_frames[boatFrameIndex][4];
+      boatFrameIndex = (boatFrameIndex + 1) % 3;
+
+		  uint8_t lsb;
+		  lsb = matrix_buffer[5] & 0x01;
+		  matrix_buffer[5] >>= 1;
+		  matrix_buffer[5] = (matrix_buffer[5] & 0x7F) | (lsb << 7);
+		  lsb = matrix_buffer[6] & 0x01;
+		  matrix_buffer[6] >>= 1;
+		  matrix_buffer[6] = (matrix_buffer[6] & 0x7F) | (lsb << 7);
+		  lsb = matrix_buffer[7] & 0x01;
+		  matrix_buffer[7] >>= 1;
+		  matrix_buffer[7] = (matrix_buffer[7] & 0x7F) | (lsb << 7);
+		  setTimer1(500);
 	  }
     /* USER CODE BEGIN 3 */
   }
