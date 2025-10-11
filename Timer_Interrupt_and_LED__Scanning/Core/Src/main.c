@@ -389,15 +389,15 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-volatile uint8_t timer = 1000;
-volatile uint8_t counter = 100;
+volatile uint16_t timer = 1000;
+volatile uint8_t counter = 5;
 volatile uint8_t ledIndex = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   counter--;
   if (counter <= 0) {
     update7SEG(ledIndex);
     ledIndex = (ledIndex + 1) % MAX_LED;
-    counter = 100;
+    counter = 5;
   }
   
   timer--;
@@ -411,6 +411,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
     ledBuffer[1] %= 10;
     ledBuffer[2] %= 10;
     ledBuffer[3] %= 10;
+
+    HAL_GPIO_TogglePin(LED_DOT1_GPIO_Port, LED_DOT1_Pin);
+    HAL_GPIO_TogglePin(LED_DOT2_GPIO_Port, LED_DOT2_Pin);
   }
 }
 /* USER CODE END 4 */
