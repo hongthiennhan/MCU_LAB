@@ -59,6 +59,21 @@ static void MX_TIM2_Init(void);
 #define MAX_LED 4
 uint8_t ledBuffer[MAX_LED] = {1, 2, 3, 4};
 
+volatile uint16_t timer0_counter = 0;
+volatile uint8_t timer0_flag = 0;
+uint16_t TIMER_CYCLE = 10;
+
+void setTimer0(uint16_t duration) {
+	timer0_counter = duration / TIMER_CYCLE;
+	timer0_flag = 0;
+}
+void timer_run() {
+	if (timer0_counter > 0) {
+		timer0_counter--;
+		if (timer0_counter == 0) timer0_flag = 1;
+	}
+}
+
 void display7SEG(uint8_t num) {
 	switch (num) {
 		case 0:
@@ -238,9 +253,9 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t hour = 23, minute = 58, second = 10;
   
   HAL_TIM_Base_Start_IT(&htim2);
+  setTimer0(1000);
   HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
   HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
   HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 1);
@@ -252,20 +267,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    second++;
-    if (second >= 60) {
-      second = 0;
-      minute++;
-    }
-    if (minute >= 60) {
-      minute = 0;
-      hour++;
-    }
-    if (hour >= 24) {
-      hour = 0;
-    }
-    updateClockBuffer(hour, minute, second);
-    HAL_Delay(100);
+	  if (timer0_flag == 1) {
+		  HAL_GPIO_TogglePin(LED_DOT1_GPIO_Port, LED_DOT1_Pin);
+		  setTimer0(2000);
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -415,28 +420,8 @@ volatile uint16_t timer = 1000;
 volatile uint8_t counter = 5;
 volatile uint8_t ledIndex = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  counter--;
-  if (counter <= 0) {
-    update7SEG(ledIndex);
-    ledIndex = (ledIndex + 1) % MAX_LED;
-    counter = 5;
-  }
-  
-  timer--;
-  if (timer <= 0) {
-    timer = 1000;
-//    ledBuffer[3]++;
-//    if (ledBuffer[3] >= 10) ledBuffer[2]++;
-//    if (ledBuffer[2] >= 10) ledBuffer[1]++;
-//    if (ledBuffer[1] >= 10) ledBuffer[0]++;
-//    ledBuffer[0] %= 10;
-//    ledBuffer[1] %= 10;
-//    ledBuffer[2] %= 10;
-//    ledBuffer[3] %= 10;
-
-    HAL_GPIO_TogglePin(LED_DOT1_GPIO_Port, LED_DOT1_Pin);
-    HAL_GPIO_TogglePin(LED_DOT2_GPIO_Port, LED_DOT2_Pin);
-  }
+	timer_run();
+//	if (timer0_flag == 1)
 }
 /* USER CODE END 4 */
 
