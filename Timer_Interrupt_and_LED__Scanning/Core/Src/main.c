@@ -58,19 +58,32 @@ static void MX_TIM2_Init(void);
 /* USER CODE BEGIN 0 */
 #define MAX_LED 4
 uint8_t ledBuffer[MAX_LED] = {1, 2, 3, 4};
+uint8_t ledIndex = 0;
 
 volatile uint16_t timer0_counter = 0;
 volatile uint8_t timer0_flag = 0;
+volatile uint16_t timer1_counter = 0;
+volatile uint8_t timer1_flag = 0;
 uint16_t TIMER_CYCLE = 1;
 
 void setTimer0(uint16_t duration) {
 	timer0_counter = duration / TIMER_CYCLE;
 	timer0_flag = 0;
 }
+void setTimer1(uint16_t duration) {
+	timer1_counter = duration / TIMER_CYCLE;
+	timer1_flag = 0;
+}
+
 void timer_run() {
 	if (timer0_counter > 0) {
 		timer0_counter--;
 		if (timer0_counter == 0) timer0_flag = 1;
+	}
+
+	if (timer1_counter > 0) {
+		timer1_counter--;
+		if (timer1_counter == 0) timer1_flag = 1;
 	}
 }
 
@@ -256,6 +269,7 @@ int main(void)
   uint8_t hour = 23, minute = 58, second = 10;
   HAL_TIM_Base_Start_IT(&htim2);
   setTimer0(1);
+  setTimer1(1);
   HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
   HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
   HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 1);
@@ -268,23 +282,30 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  if (timer0_flag) {
-		second++;
-		if (second >= 60) {
-		  second = 0;
-		  minute++;
-		}
-		if (minute >= 60) {
-		  minute = 0;
-		  hour++;
-		}
-		if (hour >= 24) {
-		  hour = 0;
-		}
-		updateClockBuffer(hour, minute, second);
-		HAL_GPIO_TogglePin(LED_DOT1_GPIO_Port, LED_DOT1_Pin);
-		HAL_GPIO_TogglePin(LED_DOT2_GPIO_Port, LED_DOT2_Pin);
-		setTimer0(100);
+		  second++;
+		  if (second >= 60) {
+			  second = 0;
+			  minute++;
+		  }
+		  if (minute >= 60) {
+			  minute = 0;
+			  hour++;
+		  }
+		  if (hour >= 24) {
+			  hour = 0;
+		  }
+		  updateClockBuffer(hour, minute, second);
+		  HAL_GPIO_TogglePin(LED_DOT1_GPIO_Port, LED_DOT1_Pin);
+		  HAL_GPIO_TogglePin(LED_DOT2_GPIO_Port, LED_DOT2_Pin);
+		  setTimer0(100);
 	  }
+
+	  if (timer1_flag) {
+		  update7SEG(ledIndex);
+		  ledIndex = (ledIndex + 1) % MAX_LED;
+		  setTimer1(5);
+	  }
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -432,16 +453,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 volatile uint16_t timer = 1000;
 volatile uint8_t counter = 5;
-volatile uint8_t ledIndex = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	timer_run();
-
-	counter--;
-	if (counter <= 0) {
-		update7SEG(ledIndex);
-		ledIndex = (ledIndex + 1) % MAX_LED;
-		counter = 5;
-	}
 
 //	timer--;
 //	if (timer <= 0) {
