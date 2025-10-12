@@ -389,20 +389,22 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-volatile uint16_t timer = 1000;
-volatile uint8_t counter = 5;
+#define SCANNING_PERIOD 20 //ms
+#define TIMER_CYCLE 1000 //ms
+volatile uint16_t timer = TIMER_CYCLE;
+volatile uint8_t counter = SCANNING_PERIOD;
 volatile uint8_t ledIndex = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   counter--;
   if (counter <= 0) {
     update7SEG(ledIndex);
     ledIndex = (ledIndex + 1) % MAX_LED;
-    counter = 5;
+    counter = SCANNING_PERIOD;
   }
   
   timer--;
   if (timer <= 0) {
-    timer = 1000;
+    timer = TIMER_CYCLE;
     ledBuffer[3]++;
     if (ledBuffer[3] >= 10) ledBuffer[2]++;
     if (ledBuffer[2] >= 10) ledBuffer[1]++;
