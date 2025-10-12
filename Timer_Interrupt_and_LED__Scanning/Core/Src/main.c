@@ -356,29 +356,36 @@ volatile uint16_t timer = 1000;
 volatile uint8_t num1 = 0;
 volatile uint8_t num2 = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  // Scanning 7SEG
 	counter--;
-	if (counter <= 15) {
-		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
-		HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 1);
-		display7SEG(1);
-	}
-	if (counter <= 10) {
-		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
-		HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 0);
-		display7SEG(2);
-	}
-	if (counter <= 5) {
-		HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
-		HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 0);
-		display7SEG(3);
-	}
 	if (counter <= 0) {
 		counter = 20;
+		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
+		HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
+		HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 1);
+		HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 1);
+		display7SEG(1);
+	} else if (counter <= 5) {
+		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
+		HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 0);
+		HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 1);
+		HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 1);
+		display7SEG(2);
+	} else if (counter <= 10) {
+		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
+		HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
+		HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 0);
+		HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 1);
+		display7SEG(3);
+	} else if (counter <= 15) {
+		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
+		HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
 		HAL_GPIO_WritePin(LED_7SEG3_CTRL_GPIO_Port, LED_7SEG3_CTRL_Pin, 1);
 		HAL_GPIO_WritePin(LED_7SEG4_CTRL_GPIO_Port, LED_7SEG4_CTRL_Pin, 0);
 		display7SEG(0);
 	}
 
+  // Counting timer
 	timer--;
 	if (timer <= 0) {
 		timer = 1000;
