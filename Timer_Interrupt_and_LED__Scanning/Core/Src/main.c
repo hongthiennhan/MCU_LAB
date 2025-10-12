@@ -340,24 +340,25 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-volatile uint8_t counter = 20;
+volatile uint8_t counter = 10;
 volatile uint16_t timer = 1000;
 volatile uint8_t num1 = 0;
 volatile uint8_t num2 = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  // Scanning 7SEG
 	counter--;
-	if (counter <= 10) {
+	if (counter <= 0) {
+		counter = 10;
 		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 0);
 		HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 1);
 		display7SEG(num1);
-	}
-	if (counter <= 0) {
-		counter = 20;
+	} else if (counter <= 5) {
 		HAL_GPIO_WritePin(LED_7SEG1_CTRL_GPIO_Port, LED_7SEG1_CTRL_Pin, 1);
 		HAL_GPIO_WritePin(LED_7SEG2_CTRL_GPIO_Port, LED_7SEG2_CTRL_Pin, 0);
 		display7SEG(num2);
 	}
 
+  // Counting timer
 	timer--;
 	if (timer <= 0) {
 		timer = 1000;
