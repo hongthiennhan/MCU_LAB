@@ -64,6 +64,10 @@ volatile uint16_t timer0_counter = 0;
 volatile uint8_t timer0_flag = 0;
 volatile uint16_t timer1_counter = 0;
 volatile uint8_t timer1_flag = 0;
+volatile uint16_t timer2_counter = 0;
+volatile uint8_t timer2_flag = 0;
+volatile uint16_t timer3_counter = 0;
+volatile uint8_t timer3_flag = 0;
 uint16_t TIMER_CYCLE = 1;
 
 void setTimer0(uint16_t duration) {
@@ -73,6 +77,14 @@ void setTimer0(uint16_t duration) {
 void setTimer1(uint16_t duration) {
 	timer1_counter = duration / TIMER_CYCLE;
 	timer1_flag = 0;
+}
+void setTimer2(uint16_t duration) {
+	timer2_counter = duration / TIMER_CYCLE;
+	timer2_flag = 0;
+}
+void setTimer3(uint16_t duration) {
+	timer3_counter = duration / TIMER_CYCLE;
+	timer3_flag = 0;
 }
 
 void timer_run() {
@@ -84,6 +96,16 @@ void timer_run() {
 	if (timer1_counter > 0) {
 		timer1_counter--;
 		if (timer1_counter == 0) timer1_flag = 1;
+	}
+
+	if (timer2_counter > 0) {
+		timer2_counter--;
+		if (timer2_counter == 0) timer2_flag = 1;
+	}
+
+	if (timer3_counter > 0) {
+		timer3_counter--;
+		if (timer3_counter == 0) timer3_flag = 1;
 	}
 }
 
