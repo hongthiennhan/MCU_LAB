@@ -258,39 +258,6 @@ void updateClockBuffer(uint8_t hour, uint8_t minute, uint8_t second) {
 
 #define MAX_LED_MATRIX 8
 uint8_t index_led_matrix = 0;
-const uint8_t boat_frames[3][5] = {
-  {
-    0b00001000,
-    0b00011100,
-    0b11001001,
-    0b01111111,
-    0b00111110
-  },
-  {
-    0b00010000,
-    0b00111000,
-    0b10010010,
-    0b11111110,
-    0b01111100
-  },
-  {
-    0b00000100,
-    0b00001110,
-    0b01100100,
-    0b00111111,
-    0b00011111
-  }
-};
-uint8_t matrix_buffer[MAX_LED_MATRIX] = {
-  0b00001000,
-  0b00011100,
-  0b11001001,
-  0b01111111,
-  0b00111110,
-  0b01101101,
-  0b11011011,
-  0b11111111 
-};
 
 
 void setColumn(uint8_t data) {
