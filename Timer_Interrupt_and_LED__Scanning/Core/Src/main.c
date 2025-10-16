@@ -64,10 +64,6 @@ volatile uint16_t timer0_counter = 0;
 volatile uint8_t timer0_flag = 0;
 volatile uint16_t timer1_counter = 0;
 volatile uint8_t timer1_flag = 0;
-volatile uint16_t timer2_counter = 0;
-volatile uint8_t timer2_flag = 0;
-volatile uint16_t timer3_counter = 0;
-volatile uint8_t timer3_flag = 0;
 uint16_t TIMER_CYCLE = 1;
 
 void setTimer0(uint16_t duration) {
@@ -77,14 +73,6 @@ void setTimer0(uint16_t duration) {
 void setTimer1(uint16_t duration) {
 	timer1_counter = duration / TIMER_CYCLE;
 	timer1_flag = 0;
-}
-void setTimer2(uint16_t duration) {
-	timer2_counter = duration / TIMER_CYCLE;
-	timer2_flag = 0;
-}
-void setTimer3(uint16_t duration) {
-	timer3_counter = duration / TIMER_CYCLE;
-	timer3_flag = 0;
 }
 
 void timer_run() {
@@ -96,16 +84,6 @@ void timer_run() {
 	if (timer1_counter > 0) {
 		timer1_counter--;
 		if (timer1_counter == 0) timer1_flag = 1;
-	}
-
-	if (timer2_counter > 0) {
-		timer2_counter--;
-		if (timer2_counter == 0) timer2_flag = 1;
-	}
-
-	if (timer3_counter > 0) {
-		timer3_counter--;
-		if (timer3_counter == 0) timer3_flag = 1;
 	}
 }
 
@@ -258,17 +236,26 @@ void updateClockBuffer(uint8_t hour, uint8_t minute, uint8_t second) {
 
 #define MAX_LED_MATRIX 8
 uint8_t index_led_matrix = 0;
-
+uint8_t matrix_buffer[MAX_LED_MATRIX] = {
+    0b00111100,
+    0b01100110,
+    0b01000010,
+    0b01000010,
+    0b01111110,
+    0b01000010,
+    0b01000010,
+    0b01000010
+};
 
 void setColumn(uint8_t data) {
-    HAL_GPIO_WritePin(LED_MATRIX_COL0_GPIO_Port, LED_MATRIX_COL0_Pin, (data & 0x01) ? 1 : 0);
-    HAL_GPIO_WritePin(LED_MATRIX_COL1_GPIO_Port, LED_MATRIX_COL1_Pin, (data & 0x02) ? 1 : 0);
-    HAL_GPIO_WritePin(LED_MATRIX_COL2_GPIO_Port, LED_MATRIX_COL2_Pin, (data & 0x04) ? 1 : 0);
-    HAL_GPIO_WritePin(LED_MATRIX_COL3_GPIO_Port, LED_MATRIX_COL3_Pin, (data & 0x08) ? 1 : 0);
-    HAL_GPIO_WritePin(LED_MATRIX_COL4_GPIO_Port, LED_MATRIX_COL4_Pin, (data & 0x10) ? 1 : 0);
-    HAL_GPIO_WritePin(LED_MATRIX_COL5_GPIO_Port, LED_MATRIX_COL5_Pin, (data & 0x20) ? 1 : 0);
-    HAL_GPIO_WritePin(LED_MATRIX_COL6_GPIO_Port, LED_MATRIX_COL6_Pin, (data & 0x40) ? 1 : 0);
-    HAL_GPIO_WritePin(LED_MATRIX_COL7_GPIO_Port, LED_MATRIX_COL7_Pin, (data & 0x80) ? 1 : 0);
+    HAL_GPIO_WritePin(LED_MATRIX_COL0_GPIO_Port, LED_MATRIX_COL0_Pin, (data & 0x80) ? 1 : 0);
+    HAL_GPIO_WritePin(LED_MATRIX_COL1_GPIO_Port, LED_MATRIX_COL1_Pin, (data & 0x40) ? 1 : 0);
+    HAL_GPIO_WritePin(LED_MATRIX_COL2_GPIO_Port, LED_MATRIX_COL2_Pin, (data & 0x20) ? 1 : 0);
+    HAL_GPIO_WritePin(LED_MATRIX_COL3_GPIO_Port, LED_MATRIX_COL3_Pin, (data & 0x10) ? 1 : 0);
+    HAL_GPIO_WritePin(LED_MATRIX_COL4_GPIO_Port, LED_MATRIX_COL4_Pin, (data & 0x08) ? 1 : 0);
+    HAL_GPIO_WritePin(LED_MATRIX_COL5_GPIO_Port, LED_MATRIX_COL5_Pin, (data & 0x04) ? 1 : 0);
+    HAL_GPIO_WritePin(LED_MATRIX_COL6_GPIO_Port, LED_MATRIX_COL6_Pin, (data & 0x02) ? 1 : 0);
+    HAL_GPIO_WritePin(LED_MATRIX_COL7_GPIO_Port, LED_MATRIX_COL7_Pin, (data & 0x01) ? 1 : 0);
 }
 
 void clearAllRows(void) {
@@ -357,7 +344,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   uint8_t hour = 23, minute = 58, second = 10;
   uint8_t ledMaxtrixIndex = 0;
-  uint8_t boatFrameIndex = 0;
   HAL_TIM_Base_Start_IT(&htim2);
   setTimer0(1);
   setTimer1(1);
@@ -378,26 +364,18 @@ int main(void)
 		  setTimer0(1);
 	  }
 
-	  if (timer1_flag) {
-      matrix_buffer[0] = boat_frames[boatFrameIndex][0];
-      matrix_buffer[1] = boat_frames[boatFrameIndex][1];
-      matrix_buffer[2] = boat_frames[boatFrameIndex][2];
-      matrix_buffer[3] = boat_frames[boatFrameIndex][3];
-      matrix_buffer[4] = boat_frames[boatFrameIndex][4];
-      boatFrameIndex = (boatFrameIndex + 1) % 3;
-
-		  uint8_t lsb;
-		  lsb = matrix_buffer[5] & 0x01;
-		  matrix_buffer[5] >>= 1;
-		  matrix_buffer[5] = (matrix_buffer[5] & 0x7F) | (lsb << 7);
-		  lsb = matrix_buffer[6] & 0x01;
-		  matrix_buffer[6] >>= 1;
-		  matrix_buffer[6] = (matrix_buffer[6] & 0x7F) | (lsb << 7);
-		  lsb = matrix_buffer[7] & 0x01;
-		  matrix_buffer[7] >>= 1;
-		  matrix_buffer[7] = (matrix_buffer[7] & 0x7F) | (lsb << 7);
-		  setTimer1(500);
-	  }
+    if (timer1_flag) {
+      uint8_t msb;
+      msb = matrix_buffer[0] & (1 << 7); matrix_buffer[0] <<= 1; matrix_buffer[0] |= (msb >> 7);
+      msb = matrix_buffer[1] & (1 << 7); matrix_buffer[1] <<= 1; matrix_buffer[1] |= (msb >> 7);
+      msb = matrix_buffer[2] & (1 << 7); matrix_buffer[2] <<= 1; matrix_buffer[2] |= (msb >> 7);
+      msb = matrix_buffer[3] & (1 << 7); matrix_buffer[3] <<= 1; matrix_buffer[3] |= (msb >> 7);
+      msb = matrix_buffer[4] & (1 << 7); matrix_buffer[4] <<= 1; matrix_buffer[4] |= (msb >> 7);
+      msb = matrix_buffer[5] & (1 << 7); matrix_buffer[5] <<= 1; matrix_buffer[5] |= (msb >> 7);
+      msb = matrix_buffer[6] & (1 << 7); matrix_buffer[6] <<= 1; matrix_buffer[6] |= (msb >> 7);
+      msb = matrix_buffer[7] & (1 << 7); matrix_buffer[7] <<= 1; matrix_buffer[7] |= (msb >> 7);
+      setTimer1(250);
+    }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
