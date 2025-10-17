@@ -361,7 +361,7 @@ int main(void)
 	  if (timer0_flag) {
 		  updateLEDMatrix(ledMaxtrixIndex);
 		  ledMaxtrixIndex = (ledMaxtrixIndex + 1) % MAX_LED_MATRIX;
-		  setTimer0(1);
+		  setTimer0(3);
 	  }
 
     if (timer1_flag) {
@@ -374,7 +374,7 @@ int main(void)
       msb = matrix_buffer[5] & (1 << 7); matrix_buffer[5] <<= 1; matrix_buffer[5] |= (msb >> 7);
       msb = matrix_buffer[6] & (1 << 7); matrix_buffer[6] <<= 1; matrix_buffer[6] |= (msb >> 7);
       msb = matrix_buffer[7] & (1 << 7); matrix_buffer[7] <<= 1; matrix_buffer[7] |= (msb >> 7);
-      setTimer1(250);
+      setTimer1(100);
     }
     /* USER CODE BEGIN 3 */
   }
