@@ -57,6 +57,24 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+volatile uint16_t timer0_counter = 0;
+volatile uint8_t timer0_flag = 0;
+uint32_t psc;
+uint32_t arr;
+uint32_t TIMER_PERIOD;
+void setTimer0(uint16_t duration) {
+	if (duration < TIMER_PERIOD) timer0_counter = 1;
+	else timer0_counter = duration / TIMER_PERIOD;
+	timer0_flag = 0;
+}
+
+void timer_run() {
+	if (timer0_counter > 0) {
+		timer0_counter--;
+		if (timer0_counter == 0) timer0_flag = 1;
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -90,6 +108,12 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start_IT(&htim2);
+  psc = htim2.Instance->PSC;
+  arr = htim2.Instance->ARR;
+  TIMER_PERIOD = (psc + 1) * (arr + 1) * 1000;
+  TIMER_PERIOD /= HAL_RCC_GetPCLK1Freq();
+  setTimer0(1);
 
   /* USER CODE END 2 */
 
@@ -100,6 +124,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  if (timer0_flag) {
+		  HAL_GPIO_TogglePin(LED_H_AMBER1_GPIO_Port, LED_H_AMBER1_Pin);
+		  setTimer0(2000);
+	  }
   }
   /* USER CODE END 3 */
 }
@@ -159,7 +187,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 799;
+  htim2.Init.Prescaler = 7999;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 9;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -244,7 +272,9 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	timer_run();
+}
 /* USER CODE END 4 */
 
 /**
