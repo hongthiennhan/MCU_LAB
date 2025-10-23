@@ -389,7 +389,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-#define SCANNING_PERIOD 20 //ms
+#define SCANNING_PERIOD 5 //ms
 #define TIMER_CYCLE 1000 //ms
 volatile uint16_t timer = TIMER_CYCLE;
 volatile uint8_t counter = SCANNING_PERIOD;
