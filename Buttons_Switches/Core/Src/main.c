@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2025 STMicroelectronics.
+  * Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -21,7 +21,14 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "timer.h"
+#include "7seg.h"
+#include "matrix.h"
+#include "button.h"
+#include "traffic_light.h"
+#include "global.h"
+#include "automatic.h"
+#include "manual.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -65,7 +72,6 @@ static void MX_TIM2_Init(void);
   */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -90,7 +96,9 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim2);
+  initButtons(); //Init for button_array
+  setTimer(4, 1000); // Timer 5
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -100,6 +108,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  fsm_automatic();
+	  fsm_manual();
+	  fsm_setting();
+	  if (timer_flag[4] == 1) {
+		  setTimer(4, 1000);
+		  HAL_GPIO_TogglePin(LED7_GPIO_Port, LED7_Pin);
+	  }
   }
   /* USER CODE END 3 */
 }
@@ -193,9 +208,8 @@ static void MX_TIM2_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-  /* USER CODE BEGIN MX_GPIO_Init_1 */
-
-  /* USER CODE END MX_GPIO_Init_1 */
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -203,48 +217,65 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, LED_H_RED1_Pin|LED_H_AMBER1_Pin|LED_H_GREEN1_Pin|LED_V_RED2_Pin
-                          |LED_V_AMBER2_Pin|LED_V_GREEN2_Pin|LED_H_RED2_Pin|LED_H_AMBER2_Pin
-                          |LED_H_GREEN2_Pin|LED_V_RED1_Pin|LED_V_AMBER1_Pin|LED_V_GREEN1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, LED1_Pin|LED2_Pin|LED3_Pin|LED4_Pin
+                          |LED5_Pin|LED6_Pin|LED7_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED_7_H_CTRL1_Pin|LED_7_H_CTRL2_Pin|LED_7_V_CTRL1_Pin|LED_7_V_CTRL2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, SEG2_Pin|EN0_Pin|EN1_Pin|EN2_Pin
+                          |EN3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, BTN3_Pin|BTN1_Pin|BTN2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, SEG0_Pin|SEG1_Pin|SEG3_Pin|SEG4_Pin
+                          |SEG5_Pin|SEG6_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : LED_H_RED1_Pin LED_H_AMBER1_Pin LED_H_GREEN1_Pin LED_V_RED2_Pin
-                           LED_V_AMBER2_Pin LED_V_GREEN2_Pin LED_H_RED2_Pin LED_H_AMBER2_Pin
-                           LED_H_GREEN2_Pin LED_V_RED1_Pin LED_V_AMBER1_Pin LED_V_GREEN1_Pin */
-  GPIO_InitStruct.Pin = LED_H_RED1_Pin|LED_H_AMBER1_Pin|LED_H_GREEN1_Pin|LED_V_RED2_Pin
-                          |LED_V_AMBER2_Pin|LED_V_GREEN2_Pin|LED_H_RED2_Pin|LED_H_AMBER2_Pin
-                          |LED_H_GREEN2_Pin|LED_V_RED1_Pin|LED_V_AMBER1_Pin|LED_V_GREEN1_Pin;
+  /*Configure GPIO pins : LED1_Pin LED2_Pin LED3_Pin LED4_Pin
+                           LED5_Pin LED6_Pin LED7_Pin */
+  GPIO_InitStruct.Pin = LED1_Pin|LED2_Pin|LED3_Pin|LED4_Pin
+                          |LED5_Pin|LED6_Pin|LED7_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LED_7_H_CTRL1_Pin LED_7_H_CTRL2_Pin LED_7_V_CTRL1_Pin LED_7_V_CTRL2_Pin */
-  GPIO_InitStruct.Pin = LED_7_H_CTRL1_Pin|LED_7_H_CTRL2_Pin|LED_7_V_CTRL1_Pin|LED_7_V_CTRL2_Pin;
+  /*Configure GPIO pins : SEG2_Pin EN0_Pin EN1_Pin EN2_Pin
+                           EN3_Pin */
+  GPIO_InitStruct.Pin = SEG2_Pin|EN0_Pin|EN1_Pin|EN2_Pin
+                          |EN3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : BTN3_Pin BTN1_Pin BTN2_Pin */
-  GPIO_InitStruct.Pin = BTN3_Pin|BTN1_Pin|BTN2_Pin;
+  /*Configure GPIO pins : SEG0_Pin SEG1_Pin SEG3_Pin SEG4_Pin
+                           SEG5_Pin SEG6_Pin */
+  GPIO_InitStruct.Pin = SEG0_Pin|SEG1_Pin|SEG3_Pin|SEG4_Pin
+                          |SEG5_Pin|SEG6_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /* USER CODE BEGIN MX_GPIO_Init_2 */
+  /*Configure GPIO pins : BTN3_Pin BTN1_Pin BTN2_Pin */
+  GPIO_InitStruct.Pin = BTN3_Pin|BTN1_Pin|BTN2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /* USER CODE END MX_GPIO_Init_2 */
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
-
+int idx = 0;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	timerRun();
+	getKeyInput();
+	update7SEG(idx++);
+	if (idx >= 4){
+		idx = 0;
+	}
+}
 /* USER CODE END 4 */
 
 /**
@@ -261,7 +292,8 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-#ifdef USE_FULL_ASSERT
+
+#ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
