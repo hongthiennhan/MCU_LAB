@@ -17,9 +17,9 @@ void fsm_automatic() {
 				status = GREEN_RED;
 				countdownX = greenTime - 1;
 				countdownY = redTime - 1;
-				updateBufferXLine(countdownX);
-				updateBufferYLine(countdownY);
-				setTimer(0, greenTime * 1000); // Timer 1
+				updateBufferYLine(countdownX);  // Đổi X thành Y
+				updateBufferXLine(countdownY);  // Đổi Y thành X
+				setTimer(0, greenTime * 1000);
 				setTimer(1, 1000);
 			}
 			break;
@@ -32,17 +32,18 @@ void fsm_automatic() {
 				countdownX = yellowTime - 1;
 			}
 			if (timer_flag[1] == 1) {
-				//UPDATE DISPLAY
-				updateBufferXLine(countdownX);
-				updateBufferYLine(countdownY);
+				updateBufferYLine(countdownX);  // Đổi X thành Y
+				updateBufferXLine(countdownY);  // Đổi Y thành X
 				countdownX--;
 				countdownY--;
 				setTimer(1, 1000); // Timer 2
 			}
 			if (isButtonPressed(0)) {
-//				Check button1_flag == 1, then reset button1_flag = 0
-				status = MAN;
-				setTimer(2, 10000); // Timer 3
+				status = MODE2;
+				mode = 2;
+				tempRed = redTime;
+				updateBufferYLine(mode);       // Đổi X thành Y
+				updateBufferXLine(tempRed);    // Đổi Y thành X
 				clearTrafficLight();
 			}
 			break;
@@ -56,17 +57,18 @@ void fsm_automatic() {
 				countdownY = greenTime - 1;
 			}
 			if (timer_flag[1] == 1) {
-				//UPDATE DISPLAY
-				updateBufferXLine(countdownX);
-				updateBufferYLine(countdownY);
+				updateBufferYLine(countdownX);  // Đổi X thành Y
+				updateBufferXLine(countdownY);  // Đổi Y thành X
 				countdownX--;
 				countdownY--;
 				setTimer(1, 1000); // Timer 2
 			}
 			if (isButtonPressed(0)) {
-//				Check button1_flag == 1, then reset button1_flag = 0
-				status = MAN;
-				setTimer(2, 10000); // Timer 3
+				status = MODE2;
+				mode = 2;
+				tempRed = redTime;
+				updateBufferYLine(mode);       // Đổi X thành Y
+				updateBufferXLine(tempRed);    // Đổi Y thành X
 				clearTrafficLight();
 			}
 			break;
@@ -79,17 +81,18 @@ void fsm_automatic() {
 				countdownY = yellowTime - 1;
 			}
 			if (timer_flag[1] == 1) {
-				//UPDATE DISPLAY
-				updateBufferXLine(countdownX);
-				updateBufferYLine(countdownY);
+				updateBufferYLine(countdownX);  // Đổi X thành Y
+				updateBufferXLine(countdownY);  // Đổi Y thành X
 				countdownX--;
 				countdownY--;
 				setTimer(1, 1000); // Timer 2
 			}
 			if (isButtonPressed(0)) {
-//				Check button1_flag == 1, then reset button1_flag = 0
-				status = MAN;
-				setTimer(2, 10000); // Timer 3
+				status = MODE2;
+				mode = 2;
+				tempRed = redTime;
+				updateBufferYLine(mode);       // Đổi X thành Y
+				updateBufferXLine(tempRed);    // Đổi Y thành X
 				clearTrafficLight();
 			}
 			break;
@@ -103,17 +106,18 @@ void fsm_automatic() {
 				countdownY = redTime - 1;
 			}
 			if (timer_flag[1] == 1) {
-				//UPDATE DISPLAY
-				updateBufferXLine(countdownX);
-				updateBufferYLine(countdownY);
+				updateBufferYLine(countdownX);  // Đổi X thành Y
+				updateBufferXLine(countdownY);  // Đổi Y thành X
 				countdownX--;
 				countdownY--;
 				setTimer(1, 1000); // Timer 2
 			}
 			if (isButtonPressed(0)) {
-//				Check button1_flag == 1, then reset button1_flag = 0
-				status = MAN;
-				setTimer(2, 10000); // Timer 3
+				status = MODE2;
+				mode = 2;
+				tempRed = redTime;
+				updateBufferYLine(mode);       // Đổi X thành Y
+				updateBufferXLine(tempRed);    // Đổi Y thành X
 				clearTrafficLight();
 			}
 			break;

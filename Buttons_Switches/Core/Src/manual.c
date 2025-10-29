@@ -7,11 +7,6 @@
 
 #include "manual.h"
 
-int mode = 0;
-int redValue = 0;
-int yellowValue = 0;
-int greenValue = 0;
-
 void fsm_manual() {
 	switch(status) {
 		case MAN: {
@@ -36,95 +31,61 @@ void fsm_manual() {
 		}
 		case MODE2: {
 			if (timer_flag[3] == 1) {
-				setTimer(3, 500); // Timer 4
-				blinkRedLed(); // Blink 2Hz
+				setTimer(3, 500);
+				blinkRedLed();
 			}
-			if (isButtonPressed(0)) { // BTN1 pressed, update status and discard value
+			if (isButtonPressed(0)) {
 				status = MODE3;
 				mode = 3;
-				// Adjust Time to the original, not save the updated value
-				setRedTime(redValue);
-				setYellowTime(yellowValue);
-				setGreenTime(greenValue);
-				updateBufferXLine(mode);
-				updateBufferYLine(yellowTime);
+				tempYellow = yellowTime;  // Initialize temp value
+				updateBufferYLine(mode);       // Đổi X thành Y
+				updateBufferXLine(tempYellow); // Đổi Y thành X
 				clearTrafficLight();
 				break;
 			}
-			if (isButtonPressed(1)) { // BTN2 pressed, update value
-				updateRedTime();
-				updateBufferYLine(redTime);
-				break;
-			}
-			if (isButtonPressed(2)) { // BTN3 pressed, save the value -> update Time
-				status = MAN;
-				setTimer(2, 10000); // Timer 3
-				clearTrafficLight();
-				mode = 0;
-				break;
+			if (isButtonPressed(1)) {
+				if (tempRed < 99) tempRed++;
+				else tempRed = 1;
+				updateBufferXLine(tempRed);    // Đổi Y thành X
 			}
 			break;
 		}
 		case MODE3: {
 			if (timer_flag[3] == 1) {
-				setTimer(3, 500); // Timer 4
-				blinkYellowLed(); // Blink 2Hz
+				setTimer(3, 500);
+				blinkYellowLed();
 			}
-			if (isButtonPressed(0)) { // BTN1 pressed, update status and discard value
+			if (isButtonPressed(0)) {
 				status = MODE4;
 				mode = 4;
-				// Adjust Time to the original, not save the updated value
-				setRedTime(redValue);
-				setYellowTime(yellowValue);
-				setGreenTime(greenValue);
-				updateBufferXLine(mode);
-				updateBufferYLine(greenTime);
+				tempGreen = greenTime;  // Initialize temp value
+				updateBufferYLine(mode);       // Đổi X thành Y
+				updateBufferXLine(tempGreen); // Đổi Y thành X
 				clearTrafficLight();
 				break;
 			}
-			if (isButtonPressed(1)) { // BTN2 pressed, update value
-				updateYellowTime();
-				updateBufferYLine(yellowTime);
-				break;
-			}
-			if (isButtonPressed(2)) { // BTN3 pressed, save the value -> update Time
-				status = MAN;
-				setTimer(2, 10000); // Timer 3
-				clearTrafficLight();
-				mode = 0;
-				break;
+			if (isButtonPressed(1)) {
+				if (tempYellow < 99) tempYellow++;
+				else tempYellow = 1;
+				updateBufferXLine(tempYellow);    // Đổi Y thành X
 			}
 			break;
 		}
 		case MODE4: {
 			if (timer_flag[3] == 1) {
-				setTimer(3, 500); // Timer 4
-				blinkGreenLed(); // Blink 2Hz
+				setTimer(3, 500);
+				blinkGreenLed();
 			}
-			if (isButtonPressed(0)) { // BTN1 pressed, update status and discard value
-				status = MAN;
-				setTimer(2, 10000); // Timer 3
-				clearTrafficLight();
-				mode = 0;
-				// Adjust Time to the original, not save the updated value
-				setRedTime(redValue);
-				setYellowTime(yellowValue);
-				setGreenTime(greenValue);
-				updateBufferXLine(mode);
-				updateBufferYLine(0);
-				break;
-			}
-			if (isButtonPressed(1)) { // BTN2 pressed, update value
-				updateGreenTime();
-				updateBufferYLine(greenTime);
-				break;
-			}
-			if (isButtonPressed(2)) { // BTN3 pressed, save the value -> update Time
-				status = MAN;
-				setTimer(2, 10000); // Timer 3
+			if (isButtonPressed(0)) {
+				status = AUTO;
 				clearTrafficLight();
 				mode = 0;
 				break;
+			}
+			if (isButtonPressed(1)) {
+				if (tempGreen < 99) tempGreen++;
+				else tempGreen = 1;
+				updateBufferXLine(tempGreen);    // Đổi Y thành X
 			}
 			break;
 		}

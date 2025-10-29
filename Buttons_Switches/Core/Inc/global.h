@@ -15,6 +15,15 @@
 #include "timer.h"
 
 extern int status;
+extern int mode;
+extern int redValue;
+extern int yellowValue; 
+extern int greenValue;
+
+// Add temporary variables
+extern int tempRed;
+extern int tempYellow;
+extern int tempGreen;
 
 #define INIT 0
 #define AUTO 1

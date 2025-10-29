@@ -8,6 +8,17 @@
 #include "global.h"
 int status = INIT;
 
+// Add these definitions
+int mode = 0;
+int redValue = 0;
+int yellowValue = 0;
+int greenValue = 0;
+
+// Add temporary variables initialization
+int tempRed = 0;
+int tempYellow = 0; 
+int tempGreen = 0;
+
 void fsm_setting() {
 	switch(status) {
 		case INIT: {
