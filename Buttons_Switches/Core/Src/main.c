@@ -213,8 +213,9 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, HLED_RED_Pin|HLED_YELLOW_Pin|HLED_GREEN_Pin|VLED_RED_Pin
-                          |VLED_YELLOW_Pin|VLED_GREEN_Pin|LED7_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, HLED_RED1_Pin|HLED_YELLOW1_Pin|HLED_GREEN1_Pin|VLED_RED1_Pin
+                          |VLED_YELLOW1_Pin|VLED_GREEN1_Pin|HLED_RED2_Pin|HLED_YELLOW2_Pin
+                          |HLED_GREEN2_Pin|VLED_RED2_Pin|VLED_YELLOW2_Pin|VLED_GREEN2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, SEG2_Pin|EN0_Pin|EN1_Pin|EN2_Pin
@@ -224,10 +225,12 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOB, SEG0_Pin|SEG1_Pin|SEG3_Pin|SEG4_Pin
                           |SEG5_Pin|SEG6_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : HLED_RED_Pin HLED_YELLOW_Pin HLED_GREEN_Pin VLED_RED_Pin
-                           VLED_YELLOW_Pin VLED_GREEN_Pin LED7_Pin */
-  GPIO_InitStruct.Pin = HLED_RED_Pin|HLED_YELLOW_Pin|HLED_GREEN_Pin|VLED_RED_Pin
-                          |VLED_YELLOW_Pin|VLED_GREEN_Pin|LED7_Pin;
+  /*Configure GPIO pins : HLED_RED1_Pin HLED_YELLOW1_Pin HLED_GREEN1_Pin VLED_RED1_Pin
+                           VLED_YELLOW1_Pin VLED_GREEN1_Pin HLED_RED2_Pin HLED_YELLOW2_Pin
+                           HLED_GREEN2_Pin VLED_RED2_Pin VLED_YELLOW2_Pin VLED_GREEN2_Pin */
+  GPIO_InitStruct.Pin = HLED_RED1_Pin|HLED_YELLOW1_Pin|HLED_GREEN1_Pin|VLED_RED1_Pin
+                          |VLED_YELLOW1_Pin|VLED_GREEN1_Pin|HLED_RED2_Pin|HLED_YELLOW2_Pin
+                          |HLED_GREEN2_Pin|VLED_RED2_Pin|VLED_YELLOW2_Pin|VLED_GREEN2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
