@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "7seg.h": "c",
+        "automatic.h": "c",
+        "traffic_light.h": "c"
+    }
+}

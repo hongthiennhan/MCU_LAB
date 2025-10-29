@@ -1,8 +1,8 @@
 ///*
 // * s_button.c
 // *
-// *  Created on: Oct 25, 2024
-// *      Author: Thảo Quảng
+//  *  Created on: 11 thg 10, 2022
+//  *      Author: Thiện Nhân
 // */
 //
 //

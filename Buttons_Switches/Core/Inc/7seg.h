@@ -1,8 +1,8 @@
 /*
  * 7seg.h
  *
- *  Created on: Sep 29, 2024
- *      Author: Thảo Quảng
+ *  Created on: 11 thg 10, 2022
+ *      Author: Thiện Nhân
  */
 
 #ifndef INC_7SEG_H_

@@ -1,8 +1,8 @@
 /*
  * timer.c
  *
- *  Created on: Sep 29, 2024
- *      Author: Thảo Quảng
+ *  Created on: 11 thg 10, 2022
+ *      Author: Thiện Nhân
  */
 #include "timer.h"
 

@@ -1,8 +1,8 @@
 /*
  * manual.c
  *
- *  Created on: Oct 30, 2024
- *      Author: Thảo Quảng
+ *  Created on: 11 thg 10, 2022
+ *      Author: Thiện Nhân
  */
 
 #include "manual.h"

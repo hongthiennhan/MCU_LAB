@@ -1,8 +1,8 @@
 /*
  * timer.h
  *
- *  Created on: Sep 29, 2024
- *      Author: Thảo Quảng
+ *  Created on: 11 thg 10, 2022
+ *      Author: Thiện Nhân
  */
 
 #ifndef INC_TIMER_H_

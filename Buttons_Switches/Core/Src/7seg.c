@@ -1,8 +1,8 @@
 /*
  * 7_segment_led.c
  *
- *  Created on: 29 thg 9, 2024
- *      Author: Thảo Quảng
+ *  Created on: 11 thg 10, 2022
+ *      Author: Thiện Nhân
  */
 
 #include "7seg.h"
