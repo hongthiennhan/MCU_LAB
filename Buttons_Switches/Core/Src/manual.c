@@ -6,6 +6,7 @@
  */
 
 #include "manual.h"
+#include "traffic_light.h"   // ensure prototype for turnOnAllLed is visible
 
 void fsm_manual() {
     switch(status) {
@@ -52,6 +53,7 @@ void fsm_manual() {
             }
             if (isButtonPressed(2)) {
                 setRedTime(tempRed);  /* save only on BTN3 */
+                turnOnAllLed();       /* new: when BTN3 pressed, light all LEDs */
                 break;
             }
             break;
@@ -79,6 +81,7 @@ void fsm_manual() {
             }
             if (isButtonPressed(2)) {
                 setYellowTime(tempYellow); /* save only on BTN3 */
+                turnOnAllLed();            /* new: when BTN3 pressed, light all LEDs */
                 break;
             }
             break;
@@ -103,6 +106,7 @@ void fsm_manual() {
             }
             if (isButtonPressed(2)) {
                 setGreenTime(tempGreen); /* save only on BTN3 */
+                turnOnAllLed();          /* new: when BTN3 pressed, light all LEDs */
                 break;
             }
             break;

@@ -32,6 +32,7 @@ void blinkYellowLed();
 void blinkGreenLed();
 
 void blinkAllLed();
+void turnOnAllLed(void);
 
 void clearTrafficLight();
 

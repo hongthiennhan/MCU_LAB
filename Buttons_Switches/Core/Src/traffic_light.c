@@ -118,6 +118,17 @@ void clearTrafficLight(void) {
     HLED_GREEN_WRITE(GPIO_PIN_RESET);
 }
 
+/* --- New: turn all LEDs ON (both copies) --- */
+void turnOnAllLed(void) {
+    VLED_RED_WRITE(GPIO_PIN_SET);
+    VLED_YELLOW_WRITE(GPIO_PIN_SET);
+    VLED_GREEN_WRITE(GPIO_PIN_SET);
+
+    HLED_RED_WRITE(GPIO_PIN_SET);
+    HLED_YELLOW_WRITE(GPIO_PIN_SET);
+    HLED_GREEN_WRITE(GPIO_PIN_SET);
+}
+
 void blinkRedLed(void) {
     VLED_RED_TOGGLE();
     HLED_RED_TOGGLE();
