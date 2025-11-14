@@ -26,6 +26,6 @@ void SCH_Init(void);
 void SCH_Update(void);
 unsigned char SCH_Add_Task(void (*pFunction)(), unsigned int DELAY, unsigned int PERIOD);
 void SCH_Dispatch_Tasks(void);
-unsigned char SCH_Delete_Task(const uint32_t TASK_INDEX);
+void SCH_Delete_Task(const uint32_t TASK_INDEX);
 
 #endif /* INC_SCHEDULER_H_ */

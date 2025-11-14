@@ -14,68 +14,81 @@ void SCH_Init(void) {
 }
 
 void SCH_Update(void) {
-	uint32_t Index;
-	for (Index = 0; Index < SCH_MAX_TASKS; Index++) {
-		if (SCH_tasks_G[Index].pTask) {
-			if (SCH_tasks_G[Index].Delay == 0) {
-				// The task is due to run
-				SCH_tasks_G[Index].RunMe += 1; // Inc. the 'RunMe' flag
-				if (SCH_tasks_G[Index].Period) {
-					// Schedule periodic tasks to run again
-					SCH_tasks_G[Index].Delay = SCH_tasks_G[Index].Period;
-				}
-			}
-			else
-			{
-				// Not yet ready to run: just decrement the delay
-				SCH_tasks_G[Index].Delay -= 1;
-			}
-		}
-	}
+    if (SCH_tasks_G[0].pTask == 0) return;
+
+    if (SCH_tasks_G[0].Delay == 0) {
+        SCH_tasks_G[0].RunMe++;
+    } else {
+        SCH_tasks_G[0].Delay--;
+    }
 }
 
-unsigned char SCH_Add_Task(void (*pFunction)(), unsigned int DELAY, unsigned int PERIOD){
-	uint32_t Index = 0;
-	// First find a gap in the array (if there is one)
-	while ((SCH_tasks_G[Index].pTask != 0) && (Index < SCH_MAX_TASKS))
-	{
-		Index++;
-	}
-	if (Index == SCH_MAX_TASKS) {
-		return SCH_MAX_TASKS; // Also return an error code
-	}
-	// If we're here, there is a space in the task array
-	SCH_tasks_G[Index].pTask = pFunction;
-	SCH_tasks_G[Index].Delay = DELAY;
-	SCH_tasks_G[Index].Period = PERIOD;
-	SCH_tasks_G[Index].RunMe = 0;
-	return Index; // return position of task (to allow later deletion)
+
+unsigned char SCH_Add_Task(void (*pFunction)(), unsigned int DELAY, unsigned int PERIOD) {
+    uint32_t i = 0;
+    uint32_t accumulated = 0;
+
+    // Find insert position
+    while (i < SCH_MAX_TASKS && SCH_tasks_G[i].pTask != 0 && accumulated + SCH_tasks_G[i].Delay <= DELAY) {
+        accumulated += SCH_tasks_G[i].Delay;
+        DELAY -= SCH_tasks_G[i].Delay;
+        i++;
+    }
+
+    // If full
+    if (i == SCH_MAX_TASKS) return SCH_MAX_TASKS;
+
+    // Shift tasks
+    for (uint32_t j = SCH_MAX_TASKS-1; j > i; j--) {
+        SCH_tasks_G[j] = SCH_tasks_G[j-1];
+    }
+
+    // Insert new task
+    SCH_tasks_G[i].pTask  = pFunction;
+    SCH_tasks_G[i].Period = PERIOD;
+    SCH_tasks_G[i].RunMe  = 0;
+    SCH_tasks_G[i].Delay  = DELAY;
+
+    // Fix delay
+    if (SCH_tasks_G[i+1].pTask != 0) {
+        SCH_tasks_G[i+1].Delay -= DELAY;
+    }
+
+    return i;
 }
+
 
 void SCH_Dispatch_Tasks(void) {
-	uint32_t Index;
-	// Dispatches (runs) the next task (if one is ready)
-	for (Index = 0; Index < SCH_MAX_TASKS; Index++) {
-		if (SCH_tasks_G[Index].RunMe > 0) {
-			(*SCH_tasks_G[Index].pTask)(); // Run the task
-			SCH_tasks_G[Index].RunMe -= 1; // Reset / reduce RunMe flag
-			if (SCH_tasks_G[Index].Period == 0) {
-				SCH_Delete_Task(Index);
-			}
-		}
-	}
+    if (SCH_tasks_G[0].RunMe > 0) {
+
+        (*SCH_tasks_G[0].pTask)();
+        SCH_tasks_G[0].RunMe--;
+
+        uint32_t period = SCH_tasks_G[0].Period;
+
+        SCH_Delete_Task(0);  // Remove first task (O(n))
+
+        // Reschedule periodic task
+        if (period > 0) {
+            SCH_Add_Task((*SCH_tasks_G[0].pTask), period, period); 
+        }
+    }
 }
-unsigned char SCH_Delete_Task(const uint32_t TASK_INDEX) {
-	int Return_code;
-	if (SCH_tasks_G[TASK_INDEX].pTask == 0) {
-		Return_code = 1;
-	}
-	else {
-		Return_code = 0;
-	}
-	SCH_tasks_G[TASK_INDEX].pTask = 0x0000;
-	SCH_tasks_G[TASK_INDEX].Delay = 0;
-	SCH_tasks_G[TASK_INDEX].Period = 0;
-	SCH_tasks_G[TASK_INDEX].RunMe = 0;
-	return Return_code; // return status
+
+void SCH_Delete_Task(const uint32_t TASK_INDEX) {
+    if (SCH_tasks_G[TASK_INDEX].pTask == 0) return;
+
+    uint32_t removed_delay = SCH_tasks_G[TASK_INDEX].Delay;
+
+    // Shift tasks up
+    for (uint32_t i = TASK_INDEX; i < SCH_MAX_TASKS-1; i++) {
+        SCH_tasks_G[i] = SCH_tasks_G[i+1];
+    }
+
+    // Fix delay of new first element
+    SCH_tasks_G[TASK_INDEX].Delay += removed_delay;
+
+    // Clear last entry
+    SCH_tasks_G[SCH_MAX_TASKS-1].pTask = 0;
 }
+
